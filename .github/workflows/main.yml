@@ -1,16 +1,40 @@
-name: workflow1-runs linux commands
-on: workflow_dispatch
+name: multiple runners and choose jobs
+on:
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: "Select a runner"
+        required: true
+        type: choice
+        options:
+          - ubuntu-latest
+          - ubuntu-22.04
+          - macos-latest
+          - windows-latest
+      jobs_name:
+        description: "Select a job to run"
+        required: true
+        type: choice
+        options:
+          - buildjob
+          - testjob
+          - deployjob
 jobs:
-   job1:
-     runs-on: ubuntu-latest
-     steps:
-      - name: Execute a linux command
-        run: echo "Hello All"
-   job2:
-     needs: job1
-     runs-on: ubuntu-24.04
-     steps:
-      - name: Execute set of linux commands
-        run: |
-         hostname -s
-         echo "Thanks you All"
+  buildjob:
+  if: ${{ github.event.inputs.jobs_name == 'buildjob' }}
+    runs-on: ${{ github.event.inputs.runner }}
+    steps:
+      - name: Build job
+        run: echo "Build the code"
+  testjob:
+  if: ${{ github.event.inputs.jobs_name == 'testjob' }}
+    runs-on: ${{ github.event.inputs.runner }}
+    steps:
+      - name: Test job
+        run: echo "Run tests"
+  deployjob:
+  if: ${{ github.event.inputs.jobs_name == 'deployjob' }}
+    runs-on: ${{ github.event.inputs.runner }}
+    steps:
+      - name: Deploy job
+        run: echo "Deploy the application"
