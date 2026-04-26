@@ -21,19 +21,19 @@ on:
           - deployjob
 jobs:
   buildjob:
-  if: ${{ github.event.inputs.jobs_name == 'buildjob' }}
+    if: ${{ github.event.inputs.jobs_name == 'buildjob' }}
     runs-on: ${{ github.event.inputs.runner }}
     steps:
       - name: Build job
         run: echo "Build the code"
   testjob:
-  if: ${{ github.event.inputs.jobs_name == 'testjob' }}
+    if: ${{ github.event.inputs.jobs_name == 'testjob' }}
     runs-on: ${{ github.event.inputs.runner }}
     steps:
       - name: Test job
         run: echo "Run tests"
   deployjob:
-  if: ${{ github.event.inputs.jobs_name == 'deployjob' }}
+    if: ${{ github.event.inputs.jobs_name == 'deployjob' }}
     runs-on: ${{ github.event.inputs.runner }}
     steps:
       - name: Deploy job
